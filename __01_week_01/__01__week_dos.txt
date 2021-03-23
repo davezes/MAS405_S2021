@@ -1,0 +1,14 @@
+
+Create AWS account
+
+Create MySQL Aurora DB
+
+Add table ozone and populate
+
+Query table
+
+.Renviron file for PW
+
+Add read only user account to DB (SELECT only)
+
+

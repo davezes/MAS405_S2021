@@ -1,0 +1,13 @@
+
+#### this is just an example
+#### edit to include your DB admin info
+#### then add the lines to your .Renviron file
+
+MAS405_AWS_MY_DB_ADMIN_PW='ZesMAS405awesome'
+MAS405_AWS_MY_DB_ADMIN_HOST='database-4.cpr21gaoimsy.us-east-1.rds.amazonaws.com'
+MAS405_AWS_MY_DB_ADMIN_USER='admin'
+MAS405_AWS_MY_DB_ADMIN_DBNAME='db1'
+MAS405_AWS_MY_DB_ADMIN_PORT=3306
+
+
+

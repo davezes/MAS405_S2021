@@ -1,0 +1,83 @@
+
+Services
+RDS
+Create database
+
+MySQL
+Production
+
+
+database-4.cpr21gaoimsy.us-east-1.rds.amazonaws.com
+database-1
+admin
+ZesMAS405awesome
+
+db1
+
+Burstable
+db.t2.micro
+
+Additional connectivity configuration
+Publicly accessible Yes
+
+**VERY IMPORTANT**
+CREATE NEW SECURITY GROUP
+then edit this security group for source anywhere
+
+Database port 3306
+Password authentication
+
+Additional configuration
+
+db1
+
+
+9dbfcd2e-2467-46b4-99af-79406ff2e9a1
+
+
+Do NOT enable Deletion protection
+
+MyNewVPCsecurityGroup
+
+
+#############
+
+############### go to security groups in EC2
+
+
+
+#################
+download
+MySQL Workbench
+
+
+
+
+
+########### Mac Users
+
+brew install mysql-client
+
+
+echo 'export PATH="/usr/local/opt/mysql-client/bin:$PATH"' >> ~/.bash_profile
+
+
+mysql -h database-1.cpr21gaoimsy.us-east-1.rds.amazonaws.com -P 3306 -u admin -p 
+
+
+
+############ create new user with read only permissions
+
+#### MySQL Workbench -- "Administration" tab
+
+
+
+
+
+
+
+
+
+
+
+
