@@ -7,37 +7,49 @@ MySQL
 Production
 
 
-database-4.cpr21gaoimsy.us-east-1.rds.amazonaws.com
+#####
 database-1
-admin
-ZesMAS405awesome
+admin1209
+** your strong admin PW **
 
 db1
 
 Burstable
-db.t2.micro
+db.t3.micro
 
-Additional connectivity configuration
+
+General Purpose
+
+Enable storage autoscaling
+
+No standby
+
 Publicly accessible Yes
+
+
 
 **VERY IMPORTANT**
 CREATE NEW SECURITY GROUP
 then edit this security group for source anywhere
 
+MyMASdb1securityGroup
+
+
+
+
+Additional configuration
 Database port 3306
-Password authentication
+
+
 
 Additional configuration
 
 db1
 
 
-9dbfcd2e-2467-46b4-99af-79406ff2e9a1
+Enable encryption
 
 
-Do NOT enable Deletion protection
-
-MyNewVPCsecurityGroup
 
 
 #############
