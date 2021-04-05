@@ -1,0 +1,42 @@
+
+
+MySQL Workbench
+
+8.0.22 only for Mac
+
+
+### note you can use ___01_checkMD5_01.R in repo to confirm checksum
+
+
+Create connection
+Add parameters including PW
+
+Connect
+
+Administration tab (top)
+Users and Privileges (side)
+Add Account (near bottom)
+
+Login Name (dont change this):
+ROuser
+
+PW (edit this and make sure to write it down somewhere):
+18@@ROuserPW405fun
+
+
+Administrative Roles
+
+SELECT
+
+
+Apply
+
+
+
+
+
+
+
+
+
+

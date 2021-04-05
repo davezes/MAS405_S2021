@@ -31,13 +31,13 @@ drv <- dbDriver("MySQL")
 ################### You must add the appropriate parameters to you .Renviron file
 
 xdbuser <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_USER")
-dzpw <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
+xpw     <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
 xdbname <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_DBNAME")
 xdbhost <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_HOST")
 xdbport <- as.integer( Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PORT") )
 
 
-con <- dbConnect(drv, user=xdbuser, password=dzpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
 
 
 
@@ -66,14 +66,14 @@ xx
 
 ########## permissions
 qstr <- paste0(
-"SHOW GRANTS FOR admin"
+"SHOW GRANTS FOR admin1209"
 ) ; qstr
 xx <- dbGetQuery(con, qstr)
 xx
 
 ########## permissions
 qstr <- paste0(
-"SHOW GRANTS FOR readOnly"
+"SHOW GRANTS FOR ROuser"
 ) ; qstr
 xx <- dbGetQuery(con, qstr)
 xx
@@ -83,7 +83,7 @@ xx
 
 ########## drop user
 qstr <- paste0(
-"DROP USER readOnly"
+"DROP USER ROuser"
 ) ; qstr
 xx <- dbGetQuery(con, qstr)
 xx
@@ -91,13 +91,13 @@ xx
 
 
 qstr <- paste0(
-"CREATE USER readOnly IDENTIFIED BY 'MAS405S2020wickedAwesome'"
+"CREATE USER ROuser IDENTIFIED BY '18@@ROuserPW405fun'"
 ) ; qstr
 xx <- dbGetQuery(con, qstr)
 xx
 
 qstr <- paste0(
-"GRANT SELECT ON db1.* TO readOnly "
+"GRANT SELECT ON db1.* TO ROuser "
 ) ; qstr
 xx <- dbGetQuery(con, qstr)
 xx
@@ -107,7 +107,7 @@ xx
 
 ########## permissions
 qstr <- paste0(
-"SHOW GRANTS FOR readOnly"
+"SHOW GRANTS FOR ROuser"
 ) ; qstr
 xx <- dbGetQuery(con, qstr)
 xx

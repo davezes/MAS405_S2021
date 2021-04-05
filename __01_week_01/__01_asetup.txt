@@ -34,6 +34,10 @@ then edit this security group for source anywhere
 
 MyMASdb1securityGroup
 
+MyMASdb1securityGroup2
+
+
+
 
 
 

@@ -22,20 +22,19 @@ drv <- dbDriver("MySQL")
 
 
 
-######################################## EDIT YOUR .Renviron file
-######################################## EDIT YOUR .Renviron file
-######################################## EDIT YOUR .Renviron file
+########################################  YOUR .Renviron file
+########################################  SHOULD HAVE THESE ASSIGNED
 
 
 xdbuser <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_USER")
-dzpw <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
+xpw     <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
 xdbname <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_DBNAME")
 xdbhost <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_HOST")
 xdbport <- as.integer( Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PORT") )
 
 
 
-con <- dbConnect(drv, user=xdbuser, password=dzpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
 
 
 
@@ -84,8 +83,9 @@ xx <- dbGetQuery(con, qstr)
 xls <- list()
 
 
-xls[[ "Creator" ]] <- "Dave Zes"
-xls[[ "Creation Date" ]] <- "2021-03-23"
+xls[[ "Creator" ]] <- "" ##### EDIT THIS
+xls[[ "Creation Date" ]] <- "" ##### EDIT THIS  ### "2021-03-23"
+
 xls[[ "Title" ]] <- "Stats MAS405 Awesomeness"
 xls[[ "Purpose" ]] <- "Learn some MySQL, learn about DBs, load and share data with others"
 
