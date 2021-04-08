@@ -33,6 +33,20 @@ xdbhost <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_HOST")
 xdbport <- as.integer( Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PORT") )
 
 
+#xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER")
+#xpw     <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW")
+#xdbname <- Sys.getenv("MAS405_AWS_DZES_DB_RO_DBNAME")
+#xdbhost <- Sys.getenv("MAS405_AWS_DZES_DB_RO_HOST")
+#xdbport <- as.integer( Sys.getenv("MAS405_AWS_DZES_DB_RO_PORT") )
+
+
+xdbuser
+xpw
+xdbname
+xdbhost
+xdbport
+
+
 
 con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
 
@@ -71,11 +85,15 @@ if(xbool.tableExists) {
 ##### CREATE is part of SQL's "Data Definition Language"
 
 ## use double or float -- avoid 'numeric'
-qstr <- paste0("CREATE TABLE metadata (entryNumber INT NOT NULL, entry JSON, PRIMARY KEY (entryNumber))")
+qstr <- paste0("CREATE TABLE metadata (entryNumber INT NOT NULL  AUTO_INCREMENT , entry JSON, PRIMARY KEY (entryNumber))")
 
 
 xx <- dbGetQuery(con, qstr)
 
+
+qstr <- paste0("SELECT * FROM metadata")
+xx <- dbGetQuery(con, qstr)
+xx
 
 
 ####################### the correspondence between R list() and JSON
@@ -83,8 +101,8 @@ xx <- dbGetQuery(con, qstr)
 xls <- list()
 
 
-xls[[ "Creator" ]] <- "" ##### EDIT THIS
-xls[[ "Creation Date" ]] <- "" ##### EDIT THIS  ### "2021-03-23"
+xls[[ "Creator" ]] <- "Dave Zes" ##### EDIT THIS
+xls[[ "Creation Date" ]] <- "2021-04-07" ##### EDIT THIS  ### "2021-03-23"
 
 xls[[ "Title" ]] <- "Stats MAS405 Awesomeness"
 xls[[ "Purpose" ]] <- "Learn some MySQL, learn about DBs, load and share data with others"
@@ -125,8 +143,13 @@ xjsonEscaped, "'",
 
 qstr
 
+xx <- dbGetQuery(con, qstr)
+xx
 
 
+
+
+qstr <- paste0("SELECT * FROM metadata")
 xx <- dbGetQuery(con, qstr)
 xx
 
@@ -149,10 +172,6 @@ dbGetQuery(con, qstr)
 ########################### here in R
 
 ########## SELECT is part of SQL's Data Manipulation Language syntax, just like "INSERT" above
-
-qstr <- paste0("SELECT * FROM metadata")
-xx <- dbGetQuery(con, qstr)
-xx
 
 
 ###########################  in Terminal mysql:
