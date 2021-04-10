@@ -1,0 +1,241 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+## R Markdown Skeleton
+
+
+
+---
+title: "EXAMPLE"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    theme: paper
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+---
+
+
+
+
+
+
+```{r TOP, echo=TRUE, message=FALSE, eval=TRUE, results='hide'}
+
+#### note ``` (3 backticks)
+##### R code goes in here.  Set code chunk environment options above
+
+library(RMySQL)
+library(knitr)
+library(xtable)
+
+options(xtable.comment = FALSE) #### prevent comment when printing xtable latex
+
+projpath <- getwd()
+
+if(!exists("xdbsock")) {
+    xdbsock <- ""
+    cat("\n", "Parameter 'xdbsock' not found, setting to empty string for general usage", "\n")
+}
+
+
+
+
+
+drv <- dbDriver("MySQL")
+
+
+
+
+xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER") ### 
+xpw     <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW") ### 
+xdbname <- Sys.getenv("MAS405_AWS_DZES_DB_RO_DBNAME") ### 
+xdbhost <- Sys.getenv("MAS405_AWS_DZES_DB_RO_HOST") ###
+xdbport <- as.integer( Sys.getenv("MAS405_AWS_DZES_DB_RO_PORT") )
+
+con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+
+
+
+
+xbool_tableExists <- dbExistsTable(con, "nba_playersDate_1") ; xbool_tableExists
+
+
+
+
+```
+
+
+Document environment.  Accepts text like this
+
+
+<p style='font-family:Verdana;'> Accepts HTML/CSS </p>
+
+
+and LaTeX equations: $y=b_0 + b_1 x$
+
+
+You can also take a result from a previous R environment and display it inline, like so, `r xbool_tableExists`.
+
+
+# NBA Players-Game Data
+
+## H2
+
+### H3
+
+#### H4
+
+
+
+
+```{r datetime, echo=FALSE, eval=TRUE}
+
+###### we can use this to get current build output
+###### useful when deciding how to format tables
+opts_knit$get("rmarkdown.pandoc.to")
+
+cat("Date last run:", format(Sys.time(), "%Y-%m-%d"))
+cat("\n")
+cat("Stats 10 Winter 2020")
+cat("\n")
+cat("Section #")
+
+options(width=90)
+
+```
+
+
+
+
+## Show All Tables in DB db3
+
+```{r runQueryTables, echo=FALSE, eval=TRUE, results='show'}
+
+##### get min and max date
+
+qstr <- "SHOW TABLES"
+
+xx <- dbGetQuery(con, qstr)
+#xx
+
+## kable(xx)
+
+
+
+```
+
+```{r runQueryTablesPrint, echo=TRUE, eval=TRUE, results='asis'}
+
+##### we can use opts_knit$get("rmarkdown.pandoc.to") to determine whether we'd 
+##### rather use kable or xtable to render a table 
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "html" ) {
+  kable(xx)
+}
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "latex" ) {
+  print(xtable(xx))
+}
+
+
+
+```
+
+
+## Column Info on Table nba_players_1
+
+```{r runQueryInfo, echo=FALSE, eval=TRUE, results='show'}
+
+##### get min and max date
+
+qstr <- "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='nba_playersDate_1'"
+
+xx <- dbGetQuery(con, qstr)
+#xx
+
+kable(xx)
+
+```
+
+
+
+
+
+
+```{r runQueryA, echo=FALSE, eval=TRUE, results='hide'}
+
+##### get min and max date
+
+qstr <- "SELECT MIN(date), MAX(date) FROM nba_playersDate_1"
+
+xx <- dbGetQuery(con, qstr)
+xx
+
+xMinDataDate <- xx[1, 1]
+xMaxDataDate <- xx[1, 2]
+
+xminDD <- format( strptime(xMinDataDate, "%Y%m%d"), "%Y-%m-%d")
+xmaxDD <- format( strptime(xMaxDataDate, "%Y%m%d"), "%Y-%m-%d")
+
+```
+
+
+
+
+
+Earliest date in NBA Players data is, `r xMinDataDate`; most recent is `r xMaxDataDate`.
+
+
+Earliest date, ISO, in NBA Players data is, `r xminDD`; most recent is `r xmaxDD`.
+
+
+
+## Player-Game Points
+
+```{r runQueryB, echo=FALSE, eval=TRUE, results='show', fig.width=6}
+
+##### get min and max date
+
+qstr <- "SELECT pts FROM nba_playersDate_1"
+
+xx <- dbGetQuery(con, qstr)
+#xx
+
+pts <- xx[, 1]
+
+
+hist(pts)
+
+
+```
+
+
+\newpage
+
+## All Player-Game Where Player Pts > 60
+
+```{r runQueryPlayer50Pts, echo=FALSE, eval=TRUE, results='show', fig.width=6}
+
+##### get min and max date
+
+qstr <- paste0("SELECT date, name, team FROM nba_playersDate_1 WHERE pts > 60")
+xx <- dbGetQuery(con, qstr)
+#xx
+
+kable(xx)
+
+
+```
+
+
+
+
+

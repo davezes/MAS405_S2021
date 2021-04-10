@@ -64,23 +64,6 @@ xx
 
 
 
-########## permissions
-qstr <- paste0(
-"SHOW GRANTS FOR admin1209"
-) ; qstr
-xx <- dbGetQuery(con, qstr)
-xx
-
-########## permissions
-qstr <- paste0(
-"SHOW GRANTS FOR ROuser"
-) ; qstr
-xx <- dbGetQuery(con, qstr)
-xx
-
-
-
-
 ########## drop user
 qstr <- paste0(
 "DROP USER ROuser"

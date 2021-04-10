@@ -1,0 +1,88 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+
+
+---
+title: "Generic 0"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  html_document:
+    theme: paper
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+---
+
+
+## R Markdown Skeleton
+
+#### Author's Name
+
+
+
+
+
+```{r NOTES, echo=TRUE, message=FALSE, eval=TRUE, results='show'}
+
+#### note ``` (3 backticks)
+##### R code goes in here.  Set code chunk environment options above
+
+
+y <- 2 + 2
+
+print(y)
+
+
+```
+
+
+Document environment.  Accepts text like this
+
+
+<p style='font-family:Verdana;'> Accepts HTML/CSS </p>
+
+
+and LaTeX equations: $y=b_0 + b_1 x$
+
+
+You can also take a result from a previous R environment and display it inline, like so, $y=$ `r y`.
+
+
+# H1
+
+## H2
+
+### H3
+
+#### H4
+
+
+
+
+```{r datetime, echo=FALSE, eval=TRUE}
+
+cat("Date last run:", format(Sys.time(), "%Y-%m-%d"))
+cat("\n")
+cat("MAS405 Awesomeness")
+cat("\n")
+cat("Section #")
+
+options(width=90)
+
+```
+
+
+
+
+
+
+
+
+

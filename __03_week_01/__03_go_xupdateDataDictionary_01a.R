@@ -155,6 +155,36 @@ qstr <- paste0("SHOW COLUMNS FROM dataDictionary")
 dbGetQuery(con, qstr)
 
 
+#####################################
+#####################################
+#####################################  JSON
+
+
+yy <- dbGetQuery(con, "SELECT * FROM metadata")
+
+######## view as list -- a little more readable
+fromJSON(yy[ 1, "entry"])
+
+writeLines(yy[ 1, "entry"], file.path("~", "Desktop", "DZ_metadata.json"))
+
+
+
+
+################# data dictionary
+
+yy <- dbGetQuery(con, "SELECT * FROM dataDictionary")
+
+######## view as list -- a little more readable
+fromJSON(yy[ 1, "variableDefs"])
+
+writeLines(yy[ 1, "variableDefs"], file.path("~", "Desktop", "DZ_DDexample.json"))
+
+
+
+
+
+
+dbDisconnect(con)
 
 
 
@@ -202,12 +232,3 @@ if(FALSE) {
 
 
 
-#################
-
-
-yy <- dbGetQuery(con, "SELECT * FROM metadata")
-writeLines(yy[ 1, "entry"], file.path("~", "Desktop", "DZ_metadata.json"))
-
-
-
-dbDisconnect(con)
