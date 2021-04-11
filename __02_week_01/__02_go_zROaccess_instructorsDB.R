@@ -12,6 +12,8 @@ if(!exists("xdbsock")) {
 
 library(RMySQL)
 
+library(rjson)
+
 
 drv <- dbDriver("MySQL")
 
@@ -22,7 +24,6 @@ drv <- dbDriver("MySQL")
 
 ########################################
 
-############# BOOKKEEPING -- add these to you .Renviron file
 
 xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER")
 xpw     <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW")
@@ -83,6 +84,20 @@ dbGetQuery(con, qstr)
 qstr <- paste0("SELECT * FROM dataDictionary")
 xx <- dbGetQuery(con, qstr)
 xx
+
+
+######## view as list
+
+aDD <- fromJSON(xx[ 1, "variableDefs" ])
+aDD
+
+as.data.frame(aDD[[ "codebook" ]])
+
+
+as.data.frame(fromJSON(xx[ 2, "variableDefs" ])[[ "codebook" ]])
+
+as.data.frame(fromJSON(xx[ 3, "variableDefs" ])[[ "codebook" ]])
+
 
 ########################## what is the unit level of observation?
 ########################## what is the unit level of observation?
