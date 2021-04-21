@@ -65,7 +65,7 @@ qstr <-
 paste0(
 "
 CREATE TABLE ozone_data
-(ID INT NOT NULL, longitude DOUBLE, latitude DOUBLE, O3 DOUBLE, PRIMARY KEY (ID))
+(ID INT NOT NULL AUTO_INCREMENT, longitude DOUBLE, latitude DOUBLE, O3 DOUBLE, PRIMARY KEY (ID))
 "
 )
 xx <- dbGetQuery(con, qstr)
@@ -80,36 +80,25 @@ qstr <- "DESCRIBE ozone_data"
 dbGetQuery(con, qstr)
 
 
+colnames(dfx)
+
+colnames(dfx) <- c("longitude", "latitude", "O3")
+
+################# upload all at once
+
+xxnow <- Sys.time()
+dbWriteTable(con, "ozone_data", dfx)
+cat( difftime(Sys.time(), xxnow, unit="secs"), "\n" )
+########## ERROR !!
 
 
 
-ii <- 1
 
-############################# populate table ozone_data one row at a time
-############################# very slow with a large upload
-############################# we'll cover 'all-at-once' table loading in week 3
-
-for(ii in 1:nrow(dfx)) {
-    
-    thisRow <- dfx[ii, ]
-    
-    qstr <- paste0(
-    "INSERT INTO ozone_data (ID, longitude, latitude, O3) VALUES ('",
-    ii, "', '",
-    thisRow$x, "', '",
-    thisRow$y, "', '",
-    thisRow$o3, "')"
-    ) ; qstr
-    
-    xx <- dbGetQuery(con, qstr)
-    
-    cat(ii, " ")
-    
-}
+xxnow <- Sys.time()
+dbWriteTable(con, "ozone_data", dfx, append=TRUE, row.names=FALSE, overwrite=FALSE)
+cat( difftime(Sys.time(), xxnow, unit="secs"), "\n" )
 
 
-
-########################## info
 
 dbListTables(con)
 
@@ -131,12 +120,6 @@ xx <- dbGetQuery(con, qstr)
 xx
 
 
-###########################  in Terminal mysql:
-
-##  SELECT * FROM ozone_data WHERE latitude > 33.0 AND latitude < 34.0 ;
-
-
-###### Also try in MySQL Workbench
 
 
 

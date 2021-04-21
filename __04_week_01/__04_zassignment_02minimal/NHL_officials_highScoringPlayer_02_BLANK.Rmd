@@ -1,0 +1,155 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+
+
+
+---
+title: "Officials in NHL Games with Prolific Player Scoring"
+output:
+  pdf_document:
+    includes:
+      in_header: "preamble.tex"
+    toc: yes
+    toc_depth: '3'
+    geometry: left=10mm, right=10mm, top=25mm, bottom=25mm
+  html_document:
+    theme: paper
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+---
+
+
+
+<style type="text/css">.main-container {  max-width: 2800px;  margin-left: auto;  margin-right: auto;}</style>
+
+
+
+
+
+```{r datetime, echo=FALSE, eval=TRUE}
+
+## Sys.setlocale("LC_ALL")
+
+xtoday <-  format(Sys.time(), "%Y-%m-%d")
+
+#cat("Date last run:", xtoday)
+#cat("\n")
+#cat("Stats MAS405 Spring 2021")
+#cat("\n")
+## cat("Section #")
+
+options(width=200, xtable.comment = FALSE)
+
+
+###### we can use this to get current build output
+###### useful when deciding how to format tables
+
+
+```
+
+`r xtoday`
+
+Stats MAS405 Spring 2021
+
+your names
+
+
+
+
+
+
+
+```{r TOP, echo=FALSE, message=FALSE, eval=TRUE, results='hide'}
+
+#### note ``` (3 backticks)
+##### R code goes in here.  Set code chunk environment options above
+
+
+
+projpath <- getwd()
+
+if(!exists("xdbsock")) {
+    xdbsock <- ""
+    cat("\n", "Parameter 'xdbsock' not found, setting to empty string for general usage", "\n")
+}
+
+
+library(RMySQL)
+library(knitr)
+library(xtable)
+
+### opts_knit$get("rmarkdown.pandoc.to")
+
+
+drv <- dbDriver("MySQL")
+
+
+
+
+xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER") ### 
+xpw     <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW") ### 
+xdbname <- Sys.getenv("MAS405_AWS_DZES_DB_RO_DBNAME") ### 
+xdbhost <- Sys.getenv("MAS405_AWS_DZES_DB_RO_HOST") ###
+xdbport <- as.integer( Sys.getenv("MAS405_AWS_DZES_DB_RO_PORT") )
+
+
+############# db1
+#xdbuser <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_USER")
+#xpw <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
+#xdbname <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_DBNAME")
+#xdbhost <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_HOST")
+#xdbport <- as.integer( Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PORT") )
+
+
+
+
+con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+
+
+```
+
+
+```{r runQueryDate, echo=FALSE, eval=TRUE, results='hide'}
+
+##### get min and max date
+
+qstr <- "SELECT MIN(date), MAX(date) FROM nhl_playersDate_1"
+
+xx <- dbGetQuery(con, qstr)
+xx
+
+xMinDataDate <- xx[1, 1]
+xMaxDataDate <- xx[1, 2]
+
+xminDD <- format( strptime(xMinDataDate, "%Y%m%d"), "%Y-%m-%d")
+xmaxDD <- format( strptime(xMaxDataDate, "%Y%m%d"), "%Y-%m-%d")
+
+xpntsCO <- 3
+
+```
+
+
+## Introduction
+
+<!--
+%In the NBA, are some officials more likely than others to have officiated a game in which a player had proliffic scoring?
+-->
+In the NHL, are some officials more likely than others to have officiated a game with a prolific individual player performance?
+Utilizing regular season NHL game and player data spanning `r xminDD` to `r xmaxDD`, we produce frequencies of officials in games where a player scored more than `r xpntsCO+1` or more goals.
+
+
+
+
+
+
+
+
+
+
+

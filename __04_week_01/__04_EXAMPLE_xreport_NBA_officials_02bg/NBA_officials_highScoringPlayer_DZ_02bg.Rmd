@@ -1,0 +1,431 @@
+
+
+---
+title: "Officials in NBA Games with Prolific Player Scoring"
+geometry: 'left=12mm, right=12mm, top=15mm, bottom=15mm'
+fontsize: 12pt
+output:
+  html_document:
+    theme: paper
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex:  true
+    toc: no
+    toc_depth: '3'
+header-includes:
+ \usepackage{fontspec}
+ \usepackage{background}
+ \usepackage{float}
+ \backgroundsetup{
+ scale=1,
+ color=black,
+ opacity=0.20,
+ angle=0,
+ pages=all,
+ contents={\includegraphics[width=25cm,height=40cm]{nba_action_02.jpg}}
+ }
+ \setmainfont{Avenir} 
+ 
+---
+
+
+
+<style type="text/css">.main-container {  max-width: 2800px;  margin-left: auto;  margin-right: auto;}</style>
+
+```{r NOTES, echo=FALSE, eval=FALSE, results='hide'}
+
+#### if this doesn't build, try removing lines in header above
+####  \usepackage{fontspec}
+####  \setmainfont{Avenir} 
+
+#### You can also try installing R library tinytex
+#### On Mac, you can see a list of available fonts issuing this command in Terminal:
+#### fc-list :outline -f "%{family}\n" 
+
+```
+
+
+
+```{r datetime, echo=FALSE, eval=TRUE}
+
+xtoday <-  format(Sys.time(), "%Y-%m-%d")
+
+#cat("Date last run:", xtoday)
+#cat("\n")
+#cat("Stats MAS405 Spring 2020")
+#cat("\n")
+## cat("Section #")
+
+options(width=200, xtable.comment = FALSE)
+
+
+###### we can use this to get current build output
+###### useful when deciding how to format tables
+
+
+```
+
+`r xtoday`
+
+Stats MAS405 Spring 2021
+
+Dave Zes
+
+
+
+
+
+
+
+```{r TOP, echo=FALSE, message=FALSE, eval=TRUE, results='hide'}
+
+#### note ``` (3 backticks)
+##### R code goes in here.  Set code chunk environment options above
+
+
+
+projpath <- getwd()
+
+if(!exists("xdbsock")) {
+    xdbsock <- ""
+    cat("\n", "Parameter 'xdbsock' not found, setting to empty string for general usage", "\n")
+}
+
+
+library(RMySQL)
+library(knitr)
+library(xtable)
+
+### opts_knit$get("rmarkdown.pandoc.to")
+
+
+drv <- dbDriver("MySQL")
+
+
+
+
+xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER") ### 
+dzpw <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW") ### 
+xdbname <- Sys.getenv("MAS405_AWS_DZES_DB_RO_DBNAME") ### 
+xdbhost <- Sys.getenv("MAS405_AWS_DZES_DB_RO_HOST") ###
+xdbport <- as.integer( Sys.getenv("MAS405_AWS_DZES_DB_RO_PORT") )
+
+
+############# db1
+#xdbuser <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_USER")
+#dzpw <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
+#xdbname <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_DBNAME")
+#xdbhost <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_HOST")
+#xdbport <- as.integer( Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PORT") )
+
+
+
+
+con <- dbConnect(drv, user=xdbuser, password=dzpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+
+
+```
+
+
+```{r runQueryDate, echo=FALSE, eval=TRUE, results='hide'}
+
+##### get min and max date
+
+qstr <- "SELECT MIN(date), MAX(date) FROM nba_playersDate_1"
+
+xx <- dbGetQuery(con, qstr)
+xx
+
+xMinDataDate <- xx[1, 1]
+xMaxDataDate <- xx[1, 2]
+
+xminDD <- format( strptime(xMinDataDate, "%Y%m%d"), "%Y-%m-%d")
+xmaxDD <- format( strptime(xMaxDataDate, "%Y%m%d"), "%Y-%m-%d")
+
+xpntsCO <- 55
+
+```
+
+
+## Introduction
+
+<!--
+%In the NBA, are some officials more likely than others to have officiated a game in which a player had proliffic scoring?
+-->
+In the NBA, are some officials more likely than others to have officiated a game with a prolific individual player performance?
+Utilizing regular season NBA game and player data spanning `r xminDD` to `r xmaxDD`, we produce frequencies of officials in games where a player scored more than `r xpntsCO` points.
+
+
+
+
+
+
+
+```{r runQuery1, echo=FALSE, eval=TRUE, results='hide'}
+
+qstr <-
+paste0(
+"SELECT * FROM nba_gameDate_1  ",
+"JOIN nba_playersDate_1 ON (nba_gameDate_1.date=nba_playersDate_1.date AND nba_gameDate_1.VT=nba_playersDate_1.team)  ",
+" OR (nba_gameDate_1.date=nba_playersDate_1.date AND nba_gameDate_1.HT=nba_playersDate_1.team)  ",
+"WHERE nba_playersDate_1.pts > ", xpntsCO
+)
+qstr
+xx <- dbGetQuery(con, qstr)
+xx
+
+df_out <- xx
+
+class(df_out)
+
+colnames(df_out) ##### non-unique column names!
+
+
+colnames(df_out) <- make.names(names=colnames(df_out), unique = TRUE)
+
+df_out
+
+
+df_out_sub <- df_out[ , c("date", "VT", "HT", "min", "refs", "team", "name", "min.1", "pts")]
+
+nHSgames <- nrow(df_out_sub)
+
+library(kableExtra)
+
+```
+
+
+<style type="text/css">
+#resultsT1 {
+  width: 140% ;
+}
+#resultsOfficials1 {
+  width: 50% ;
+}
+</style>
+
+
+## Results
+
+Table 1 shows game information for all games in our data where a player (name) scored more than `r xpntsCO` points.
+
+
+```{r runQuery1result, echo=FALSE, eval=TRUE, results='asis', table.width=20}
+
+### kable(df_out_sub, format="html", table.attr = "style='width:40% ;'")
+
+##### we can use opts_knit$get("rmarkdown.pandoc.to") to determine whether we'd 
+##### rather use kable or xtable to render a table 
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "html" ) {
+  kable(df_out_sub, format="html", table.attr = "style='width:100% ;'")
+}
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "latex" ) {
+  
+  xcaption <- "NBA games in data where player scored more than 55 points."
+  
+
+  #xxtb <- kable(df_out_sub, format="latex", caption=xcaption)
+  #kable_styling(xxtb, latex_options=c("scale_down", "HOLD_position", "striped") )
+  
+
+  x.big <- suppressWarnings(xtable(df_out_sub, label='tabbig'))
+
+  caption(x.big) <- xcaption
+
+  ## xx <- suppressWarnings(print(x.big, tabular.environment='longtable', include.rownames=FALSE, print.results=FALSE))
+
+  xx <- 
+    suppressWarnings(
+    print(
+      x.big, 
+      tabular.environment='tabular', 
+      include.rownames=FALSE, 
+      print.results=FALSE
+      )
+    )
+  
+  #print(x.big, tabular.environment='longtable',
+  #      floating=FALSE,include.rownames=FALSE, 
+  #      hline.after = c(-1,nrow(x.big)),
+  #      add.to.row = list(pos = list(0),
+  #      command = "\\hline \\endhead "), file = "output.tex")
+  yy <- strsplit(xx, "\n")[[1]]
+  
+  yy <- c(yy[1], "\\scriptsize", yy[2:length(yy)])
+  
+  writeLines(yy, "output.tex")
+  
+}
+
+
+
+```
+
+
+\input{output.tex}
+
+
+\newpage
+
+<!--
+#### Frequency of Officials
+
+Table 1 shows game information for all games in our data where a player (name) scored more than `r xpntsCO` points.
+-->
+
+```{r runOfficials, echo=FALSE, eval=TRUE, results='show'}
+
+xofficials <- gsub("^\\s*|\\s*$", "", (unlist(strsplit(df_out_sub[ , "refs"], ","))))
+
+xoff_df <- as.data.frame(table(xofficials))
+
+xoff_df <- xoff_df[ order(xoff_df[ , "Freq"], decreasing=TRUE), ]
+
+
+
+```
+
+
+```{r runTableOfficials, echo=FALSE, eval=TRUE, results='asis'}
+
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "html" ) {
+  #kable( xoff_df, format="html", table.attr = "id=\"resultsOfficials1\""  )
+  
+  nuoffs <- nrow(xoff_df)
+  
+  xxtb <- kable( xoff_df, format="html", table.attr = "style='width:40% ;'"  )
+  xxtb
+  #kable_styling(xxtb)
+}
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "latex" ) {
+
+  
+  nuoffs <- nrow(xoff_df)
+  
+  #xxtb <- kable(xoff_df, format="latex")
+
+  #kable_styling(xxtb, latex_options="repeat_header", latex_table_env="longtable", repeat_header_text = "\\textit{(continued)}", repeat_header_continued = TRUE)
+  
+  ###### "{ }\\" -- try to create some vertical space
+  xcaption2 <- paste0("{ }\\\\Frequency of officials who have officiated games where a player scored more than ", xpntsCO, " points (see Table 1)")
+  
+  colnames(xoff_df) <- c("official", "numGames")
+  
+  x.big <- suppressWarnings(xtable(xoff_df))
+
+  caption(x.big) <-  xcaption2
+
+  ## xx <- suppressWarnings(print(x.big, tabular.environment='longtable', include.rownames=FALSE, print.results=FALSE))
+
+  xx <- 
+    suppressWarnings(
+      print(
+        x.big, 
+        size='\\fontsize{7pt}{7pt}\\selectfont',
+        tabular.environment='longtable', 
+        include.rownames=FALSE, 
+        print.results=FALSE
+        )
+      )
+  
+
+  #yy <- strsplit(xx, "\n")[[1]]
+  
+  #yy <- c(yy[1], "\\tiny", yy[2:length(yy)])
+  yy <- xx
+  
+  writeLines(yy, "output_2.tex")
+
+  
+  
+}
+
+```
+
+\input{output_2.tex}
+
+
+
+
+Table 2: `r nuoffs` unique officials have officiated the `r nHSgames` games in our data in which a player scored more than `r xpntsCO` (see Table 1).  Of these, Eric Lewis has officiated the most, with 4. 
+
+
+
+
+```{r ericLewis, echo=FALSE, eval=TRUE, results='hide'}
+
+
+xndx <- which(grepl('Eric Lewis', df_out_sub[ , 'refs']))
+
+df_EL <- df_out_sub[ xndx, c('date', 'VT', 'HT', 'name', 'pts') ]
+
+
+```
+
+
+
+
+```{r runTableLewis, echo=FALSE, eval=TRUE, results='asis'}
+
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "html" ) {
+  xxtb <- kable( df_EL, format="html", table.attr = "style='width:40% ;'"  )
+  xxtb
+  #kable_styling(xxtb)
+}
+
+if( opts_knit$get("rmarkdown.pandoc.to") %in% "latex" ) {
+
+ 
+  ###### "{ }\\" -- try to create some vertical space
+  xcaption3 <- paste0("{ }\\Frequency of officials who have officiated games where a player scored more than ", xpntsCO, " points (see Table 1)")
+  xcaption3 <- paste0("High Player Scoring games in which Eric Lewis officiated.")
+  
+  x.big <- suppressWarnings(xtable(df_EL))
+
+  caption(x.big) <-  xcaption3
+
+  ## xx <- suppressWarnings(print(x.big, tabular.environment='longtable', include.rownames=FALSE, print.results=FALSE))
+
+  xx <- 
+    suppressWarnings(
+      print(
+        x.big, 
+        #size='\\fontsize{10pt}{10pt}\\selectfont',
+        tabular.environment='tabular', 
+        include.rownames=FALSE, 
+        print.results=FALSE
+        )
+      )
+  
+
+  #yy <- strsplit(xx, "\n")[[1]]
+  
+  #yy <- c(yy[1], "\\tiny", yy[2:length(yy)])
+  yy <- xx
+  
+  writeLines(yy, "output_3.tex")
+
+}
+
+```
+
+
+
+\input{output_3.tex}
+
+
+
+
+
+
+
+
+

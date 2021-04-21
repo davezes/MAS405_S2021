@@ -165,7 +165,7 @@ yy <- dbGetQuery(con, "SELECT * FROM metadata")
 ######## view as list -- a little more readable
 fromJSON(yy[ 1, "entry"])
 
-writeLines(yy[ 1, "entry"], file.path("~", "Desktop", "DZ_metadata.json"))
+writeLines(yy[ 1, "entry"], file.path("~", "DZ_metadata.json"))
 
 
 

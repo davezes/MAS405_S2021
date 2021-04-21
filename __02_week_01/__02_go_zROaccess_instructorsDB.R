@@ -50,8 +50,6 @@ qstr <- paste0("DESCRIBE nba_playersDate_1")
 dbGetQuery(con, qstr)
 
 
-qstr <- paste0("DESC nba_playersDate_1")
-dbGetQuery(con, qstr)
 
 
 qstr <- paste0("DESC nba_teamDate_1")
@@ -65,6 +63,7 @@ dbGetQuery(con, qstr)
 
 ###################### show columns
 
+##### longtext 4 billion
 
 qstr <- paste0("SHOW COLUMNS FROM nba_playersDate_1")
 dbGetQuery(con, qstr)
@@ -110,6 +109,12 @@ xx <- dbGetQuery(con, qstr)
 xx
 
 
+qstr <- paste0("SELECT * FROM nba_gameDate_1  LIMIT 20")
+xx <- dbGetQuery(con, qstr)
+xx
+
+
+
 
 qstr <- paste0("SELECT * FROM nba_teamDate_1  LIMIT 20")
 xx <- dbGetQuery(con, qstr)
@@ -125,7 +130,13 @@ qstr <- "SELECT COUNT(*) FROM nba_playersDate_1"
 xx <- dbGetQuery(con, qstr)
 xx
 
+qstr <- "SELECT COUNT(*) FROM nba_gameDate_1"
+xx <- dbGetQuery(con, qstr)
+xx
 
+qstr <- "SELECT COUNT(*) FROM nba_teamDate_1"
+xx <- dbGetQuery(con, qstr)
+xx
 
 
 ##########################

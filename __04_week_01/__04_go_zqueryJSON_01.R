@@ -77,10 +77,25 @@ xx
 #########################
 
 qstr <- paste0(
-"SELECT tableName, variableDefs->'$.about', LENGTH(JSON_EXTRACT(variableDefs, '$.about')) ",
+"SELECT tableName, variableDefs->'$.about' ",
 "FROM dataDictionary  ",
-"WHERE LENGTH(JSON_EXTRACT(variableDefs, '$.about')) > 50  ",
+"WHERE JSON_EXTRACT(variableDefs, '$.about') > 1  ",
 "ORDER BY variableDefs->'$.about' "
+)
+qstr
+
+xx <- dbGetQuery(con, qstr)
+xx
+
+
+
+
+qstr <- paste0(
+"SELECT tableName, variableDefs->'$.codebook.pts' ", ###### notice the dots for the json hierarchy
+#"SELECT tableName  ", ###### notice the dots for the json hierarchy
+"FROM dataDictionary  ",
+"WHERE JSON_EXTRACT(variableDefs, '$.codebook.pts') > 1  ",
+"ORDER BY variableDefs->'$.codebook.pts' "
 )
 qstr
 
@@ -92,23 +107,23 @@ xx
 
 
 
-#qstr <- paste0(
-#"SELECT tableName, JSON_TYPE(variableDefs)  ", ###### notice the dots for the json hierarchy
-#"FROM dataDictionary  "
-#)
-#qstr
+qstr <- paste0(
+"SELECT tableName, variableDefs->'$.codebook.tpa' ", ###### notice the dots for the json hierarchy
+#"SELECT tableName  ", ###### notice the dots for the json hierarchy
+"FROM dataDictionary  ",
+"WHERE JSON_EXTRACT(variableDefs, '$.codebook.tpa') > 1  ",
+"ORDER BY variableDefs->'$.codebook.tpa' "
+)
+qstr
 
-#xx <- dbGetQuery(con, qstr)
-#xx
-
-
-
-
-
+xx <- dbGetQuery(con, qstr)
+xx
 
 
 
-##########################
+
+
+
 
 dbDisconnect(con)
 
