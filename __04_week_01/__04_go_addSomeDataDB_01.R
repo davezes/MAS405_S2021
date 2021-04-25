@@ -50,7 +50,7 @@ xbool.tableExists <- dbExistsTable(con, "ozone_data") ; xbool.tableExists
 
 
 
-############################## IMPORTANT NOTE -- THE FOLLOWING CODE CHUNK DESTROYS THE TABLE METADATA
+############################## IMPORTANT NOTE -- THE FOLLOWING CODE CHUNK DESTROYS THE TABLE 
 ############################## IN REAL LIFE, YOU'LL SURELY WANT STRICT LIMITATIONS OVER THIS OPERATION
 
 if(xbool.tableExists) {
@@ -84,6 +84,8 @@ colnames(dfx)
 
 colnames(dfx) <- c("longitude", "latitude", "O3")
 
+head(dfx)
+
 ################# upload all at once
 
 xxnow <- Sys.time()
@@ -102,7 +104,6 @@ cat( difftime(Sys.time(), xxnow, unit="secs"), "\n" )
 
 dbListTables(con)
 
-dbGetInfo(con)
 
 
 qstr <- paste0("SHOW COLUMNS FROM ozone_data")

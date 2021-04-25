@@ -52,7 +52,7 @@
         $x_1[ $i ] = $data[ $i ][ 'O3' ] ;
         
         ///// in real life, we would comment out the next line
-        printf( "row: %s , value: %s  <br/>", $i, $x_1[ $i ] ) ; /// php uses standard printf syntax -- uncomment to see results
+        // printf( "row: %s , value: %s  <br/>", $i, $x_1[ $i ] ) ; /// php uses standard printf syntax -- uncomment this line to see results
     }
 
 ?>
