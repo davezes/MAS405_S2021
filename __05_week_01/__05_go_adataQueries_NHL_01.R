@@ -80,7 +80,27 @@ dim(xx)
 
 
 
-######################################
+###################################### Who gets the decision ?????
+
+qstr <-
+"
+ SELECT a.* FROM nhl_goaliesDate_1 a
+ JOIN
+  (
+    SELECT *, COUNT(*) n FROM nhl_goaliesDate_1
+    GROUP BY date, team
+    HAVING n > 1
+  ) b
+ ON a.date = b.date
+ AND a.team = b.team
+ ORDER BY a.date
+"
+
+xx <- dbGetQuery(con, qstr)
+xx
+
+dim(xx)
+
 
 
 ########### all the games played on days in which a players scored more than 3 goals
