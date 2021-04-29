@@ -35,12 +35,12 @@ drv <- dbDriver("MySQL")
 
 
 xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER")
-dzpw <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW")
+xpw     <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW")
 xdbname <- Sys.getenv("MAS405_AWS_DZES_DB_RO_DBNAME")
 xdbhost <- Sys.getenv("MAS405_AWS_DZES_DB_RO_HOST")
 xdbport <- as.integer( Sys.getenv("MAS405_AWS_DZES_DB_RO_PORT") )
 
-con <- dbConnect(drv, user=xdbuser, password=dzpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
 
 dbListTables(con)
 

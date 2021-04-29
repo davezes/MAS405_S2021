@@ -4,6 +4,9 @@
 #################### DATA PROVERB IV -- WHEN WEB SCRAPING, ALWAYS KEEP RETRIEVAL AND CLEANING AS TWO ISOLATED PROCESSES
 
 
+############### https://console.cloud.google.com/apis
+
+
 ########## ADD TO YOU .Renviron File
 ########## PATH_MY_MAIN_DATA_WEBSCRAPER=<pathToYourWebscraperData>
 
@@ -30,7 +33,7 @@ cbind(
 
 ii <- 1
 
-############# this is my API key.  You should get your own key -- they're free 8-)
+############# this is my API key.  For heavy use you should get your own key --
 
 APIkey <- "AIzaSyCJrtmNblTajm-43hJTY4wmGHCU8vr8y7s"
 
