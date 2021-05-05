@@ -91,8 +91,8 @@ xx
 qstr <- paste0(
 "SELECT tableName, variableDefs->'$.about' ",
 "FROM dataDictionary  ",
-#"WHERE JSON_EXTRACT(variableDefs, '$.about') = 'ozone levels'  ",
-"WHERE JSON_EXTRACT(variableDefs, '$.about') > 1  ",
+"WHERE JSON_EXTRACT(variableDefs, '$.about') = 'ozone levels'  ",
+#"WHERE JSON_EXTRACT(variableDefs, '$.about') > 1  ",
 "ORDER BY variableDefs->'$.about' "
 )
 qstr

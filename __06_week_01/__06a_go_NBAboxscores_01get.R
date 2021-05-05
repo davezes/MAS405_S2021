@@ -33,8 +33,12 @@ xstartDate <- strptime("20181016:12", "%Y%m%d:%H") ; xstartDate
 xendData <- strptime("20181021:12", "%Y%m%d:%H") ; xendData ### add one day -- end of 1617 season
 
 xdateVec <- seq(xstartDate, xendData, by="hour") ;
+
+
 xdateStr <- sort(unique(format(xdateVec, "%Y%m%d")))
-xdateVec <- strptime(xdateStr, "%Y%m%d")
+
+
+## xdateVec <- strptime(xdateStr, "%Y%m%d")
 xdateStr
 
 
@@ -58,6 +62,7 @@ for(iid in 1:length(xdateStr)) {
     
 
     xthis.day.url <- paste0(xbaseday.url, this.date, "/games.json") ; xthis.day.url
+    
     xthis.day.ls <- fromJSON(file=xthis.day.url)
 
     writeLines(toJSON(xthis.day.ls), con=file.path(xpath_write_day, paste0("dayof_", this.date, ".json")))

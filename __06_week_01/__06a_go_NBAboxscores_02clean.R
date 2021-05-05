@@ -39,6 +39,8 @@ for(ii in 1:length(xfn)) {
     
     xls_xxGM <- fromJSON(file=file.path(xpath_read, xthis_fn))
     
+    paste( unlist( lapply( xls_xxGM$sports_content$game$officials, "[[", "last_name" ) ), collapse="; " )
+    
     
     ######################  DO STUFF HERE
     ######################  DO STUFF HERE

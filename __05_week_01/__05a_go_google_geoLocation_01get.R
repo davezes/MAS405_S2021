@@ -14,6 +14,7 @@ options(stringsAsFactors=FALSE)
 
 xpath_web_data <- Sys.getenv("PATH_MY_MAIN_DATA_WEBSCRAPER")
 
+
 xpath_write <- file.path(xpath_web_data, "GeoExample")
 
 if(!dir.exists(xpath_write)) {

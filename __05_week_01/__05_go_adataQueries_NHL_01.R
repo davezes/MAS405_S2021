@@ -69,6 +69,11 @@ dbGetQuery(con, qstr)
 
 
 
+qstr <- "SELECT a.* FROM (SELECT * FROM nhl_playersDate_1 WHERE goals > 3) a WHERE a.date < 20080000"
+xx <- dbGetQuery(con, qstr)
+xx
+
+
 
 ########### player dates where player scored more than 3 goals
 
@@ -87,7 +92,7 @@ qstr <-
  SELECT a.* FROM nhl_goaliesDate_1 a
  JOIN
   (
-    SELECT *, COUNT(*) n FROM nhl_goaliesDate_1
+    SELECT *, COUNT(TABLE_ID) n FROM nhl_goaliesDate_1
     GROUP BY date, team
     HAVING n > 1
   ) b
