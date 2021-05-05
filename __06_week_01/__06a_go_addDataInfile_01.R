@@ -113,6 +113,9 @@ paste0(
 " IGNORE 1 ROWS"
 )
 
+
+qstr
+
 dbGetQuery(con, qstr)
 
 
@@ -126,11 +129,15 @@ dbGetQuery(con, "SELECT * FROM ozone_data_test")
 
 
 
+## LOAD DATA LOCAL INFILE '___data/ozone.tsv'  INTO TABLE db1.ozone_data_test  FIELDS TERMINATED BY '\t'  LINES TERMINATED BY '\n'  IGNORE 1 ROWS
 
 
 
+##### In connection advanced tab, in options: OPT_LOCAL_INFILE=1
+##### Use absolute local path
 
 
+## LOAD DATA LOCAL INFILE '/Users/davezes/Files/Creations/UCLAteaching/2021_02/MAS405/__code_base/___data/ozone.tsv'  INTO TABLE db1.ozone_data_test  FIELDS TERMINATED BY '\t'  LINES TERMINATED BY '\n'  IGNORE 1 ROWS
 
 
 
