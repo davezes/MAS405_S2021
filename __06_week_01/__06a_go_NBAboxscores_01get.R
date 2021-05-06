@@ -32,7 +32,7 @@ if(!dir.exists(xpath_write_day)) {
 xstartDate <- strptime("20181016:12", "%Y%m%d:%H") ; xstartDate
 xendData <- strptime("20181021:12", "%Y%m%d:%H") ; xendData ### add one day -- end of 1617 season
 
-xdateVec <- seq(xstartDate, xendData, by="hour") ;
+xdateVec <- seq(xstartDate, xendData, by="hour") ; xdateVec
 
 
 xdateStr <- sort(unique(format(xdateVec, "%Y%m%d")))
@@ -92,6 +92,8 @@ for(iid in 1:length(xdateStr)) {
         }
         
     }
+    
+    Sys.sleep( runif(1, 0, 2) )
     
     cat("\n")
     
