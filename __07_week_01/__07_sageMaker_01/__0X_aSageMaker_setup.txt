@@ -1,0 +1,76 @@
+
+
+Amazon SageMaker
+
+Notebook --> Notebook instances
+
+Create notebook instance
+
+name
+MAS405-1
+ml.t2.medium
+
+Root access
+Enable
+
+
+Once created, select instance (MAS405-1), then start
+
+Once started, 
+
+Open_JupyterLab
+
+NOW, upload .ipynb files and file _10_params.py (drag-and-drop works)
+
+NOW, go to Launcher tab and select "Terminal" at bottom.
+NOTE: If you don't have a "Launcher" tab, Go to  File --> New Launcher
+
+
+In Terminal
+
+sudo yum install python-devel
+
+sudo yum install mysql-devel
+
+pip search mysql-connector | grep --color mysql-connector-python
+
+
+
+Once done, double click 
+_10_params.py 
+and edit to include your DB credentials
+
+
+
+
+
+Now, open
+_10_basicDB_python3_01.ipynb
+
+(Note: if you're given a choice, select conda_python3 kernel)
+
+Run
+
+
+Then
+
+_10_moreDB_NBA_python3_01.ipynb
+
+and lastly
+
+_10_moreDB_NBArefs_python3_01.ipynb
+
+
+Fun fun fun!
+
+
+MAKE SURE TO STOP YOUR NB INSTANCE WHEN DONE!!!
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+
+
+brew install Python3
+
+brew upgrade Python3
+
+
+
+#### Python 3 installed
+
+pip3 install --upgrade pip
+
+pip3 install jupyterlab
+
+jupyter-lab  
+
+#### if you have extension error, try
+jupyter server extension disable nbclassic
+
+
+OR
+
+jupyter-notebook
+
+
+

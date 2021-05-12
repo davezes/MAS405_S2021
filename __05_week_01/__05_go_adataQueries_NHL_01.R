@@ -244,9 +244,7 @@ table( xofficials )
 ####################################### unknown or unexpected character can break LaTeX parsers
 ############## characters
 
-df_out[ , "VT" ]
-
-gsub("\xe9", "e", df_out[ , "VT" ])
+df_out[ , "VT" ] <- gsub("\xe9", "e", df_out[ , "VT" ])
 
 
 
