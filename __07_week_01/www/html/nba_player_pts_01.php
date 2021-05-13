@@ -3,10 +3,20 @@
 
 <?php
     
-      include $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ; /// this is in root.  It contains your connection parameters
+    if( file_exists( $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ) ) {
+        include $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ;
+    } else {
+        include $_SERVER[ 'DOCUMENT_ROOT' ] . '../_site_parameters.php' ;
+    }
     
+
     $db = mysqli_connect($param_hostname, $param_user, $param_pw, $param_dbname) ;
       
+    if( !$db ) {
+        die("DB connection failed: " . mysqli_connect_error()) ;
+    }
+
+
     //$queryStr = "SELECT pts FROM nba_playersDate_1 LIMIT 100000" ;
     $queryStr = "SELECT pts FROM nba_playersDate_1" ;
     $this_data_array = mysqli_query( $db, $queryStr ) ;

@@ -3,10 +3,19 @@
 
     ////// Have JSONView extension installed on Chrome for this
      
-    include $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ; /// this is in root.  It contains your connection parameters
-    
+    if( file_exists( $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ) ) {
+        include $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ;
+    } else {
+        include $_SERVER[ 'DOCUMENT_ROOT' ] . '../_site_parameters.php' ;
+    }
+
     $db = mysqli_connect($param_hostname, $param_user, $param_pw, $param_dbname) ;
     
+    if( !$db ) {
+        die("DB connection failed: " . mysqli_connect_error()) ;
+    }
+
+
     /////// first meta data entry
     $queryStr = "SELECT entry FROM metadata WHERE entryNumber = '1'" ;
     

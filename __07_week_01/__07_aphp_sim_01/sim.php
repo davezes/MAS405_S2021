@@ -15,7 +15,7 @@
     
     $n = 3 ; // number of doors
     $r = 1 ; // number of losing doors revealed by host, must be > 0 AND < n - 1
-    $nn = 1000000 ; // total number of simulations -- if you make this too large, your php server may puke
+    $nn = 200 ; // total number of simulations -- if you make this too large, your php server may puke
     
     //////////
     
@@ -72,6 +72,7 @@
 
     echo '<br/>' ;
     
+
 
     $time_end = hrtime(true);
     $time = ($time_end - $time_start) / 1e9 ;

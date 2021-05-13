@@ -8,9 +8,24 @@
     //$param_pw = 'db3xx0134aaww2' ;
     //$param_dbname = 'db3' ;
     
-    include $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ;
+    if( file_exists( $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ) ) {
+        include $_SERVER[ 'DOCUMENT_ROOT' ] . '/_site_parameters.php' ;
+    } else {
+        include $_SERVER[ 'DOCUMENT_ROOT' ] . '../_site_parameters.php' ;
+    }
+
+
     
     $db = mysqli_connect($param_hostname, $param_user, $param_pw, $param_dbname) ;
+
+
+    if( !$db ) {
+        die("DB connection failed: " . mysqli_connect_error()) ;
+    }
+
+
+
+
       
     $queryStr = "SELECT * FROM ozone_data" ;
     $this_data_array = mysqli_query( $db, $queryStr ) ;

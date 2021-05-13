@@ -24,7 +24,7 @@ drv <- dbDriver("MySQL")
 
 ############# db1
 xdbuser <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_USER")
-xpw    <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
+xpw     <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PW")
 xdbname <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_DBNAME")
 xdbhost <- Sys.getenv("MAS405_AWS_MY_DB_ADMIN_HOST")
 xdbport <- as.integer( Sys.getenv("MAS405_AWS_MY_DB_ADMIN_PORT") )
@@ -147,17 +147,17 @@ paste0(
 xtimestamp <- format(Sys.time(), "%Y-%m-%d %H:%M:%S") ; xtimestamp
 
 
-dbEscapeStrings(con, xnotes)
+ynotes <- dbEscapeStrings(con, xnotes)
 
-dbEscapeStrings(con, xtimestamp)
+ytimestamp <- dbEscapeStrings(con, xtimestamp)
 
 ########### all the games played on days in which a players scored more than 60 points
 
 qstr <-
 paste0(
 "INSERT INTO ", xtableNameC , "  (entryDateTime, notes) VALUES (",
-"'", xtimestamp, "', ",
-"'", xnotes, "'",
+"'", ytimestamp, "', ",
+"'", ynotes, "'",
 ")"
 ) ; qstr
 
