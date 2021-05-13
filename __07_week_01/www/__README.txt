@@ -8,7 +8,7 @@ HOWEVER, if using the php CLI
 point Terminal to www
 php -S localhost:8001
 and your site is accessed via, e.g.,
-http://localhost:8001/www/ozone_01.php
+http://localhost:8001/html/ozone_01.php
 
 
 For your own data . . .
