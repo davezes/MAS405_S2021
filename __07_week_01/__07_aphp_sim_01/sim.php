@@ -1,8 +1,11 @@
 
+
+<?php ini_set('memory_limit', '256M') ; ?>
+
 <?php
     
     
-    $time_start = hrtime(true);
+    //$time_start = hrtime(true);
 
     
     ///// you need a server to run this
@@ -15,7 +18,7 @@
     
     $n = 3 ; // number of doors
     $r = 1 ; // number of losing doors revealed by host, must be > 0 AND < n - 1
-    $nn = 200 ; // total number of simulations -- if you make this too large, your php server may puke
+    $nn = 2000000 ; // total number of simulations -- if you make this too large, your php server may puke
     
     //////////
     
@@ -74,10 +77,10 @@
     
 
 
-    $time_end = hrtime(true);
-    $time = ($time_end - $time_start) / 1e9 ;
+    //$time_end = hrtime(true);
+    //$time = ($time_end - $time_start) / 1e9 ;
 
-    echo "Run time: $time seconds\n";
+    //echo "Run time: $time seconds\n";
     
     ?>
 

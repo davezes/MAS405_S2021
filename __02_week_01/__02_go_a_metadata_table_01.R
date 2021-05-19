@@ -154,7 +154,7 @@ xx <- dbGetQuery(con, qstr)
 xx
 
 
-
+### writeLines(xx[ 1, "entry" ], "~/Desktop/myMD.json")
 
 ########################## info
 
@@ -165,6 +165,28 @@ dbGetInfo(con)
 
 qstr <- paste0("SHOW COLUMNS FROM metadata")
 dbGetQuery(con, qstr)
+
+
+
+
+
+
+qstr <- paste0("SELECT * FROM dataDictionary")
+xx <- dbGetQuery(con, qstr)
+xx
+
+
+### writeLines(xx[ 6, "variableDefs" ], "~/Desktop/myDDexample.json")
+
+
+
+qstr <- paste0("SELECT * FROM notes")
+xx <- dbGetQuery(con, qstr)
+xx
+
+
+### writeLines(xx[ 6, "variableDefs" ], "~/Desktop/myDDexample.json")
+
 
 
 ########################### retrieve
