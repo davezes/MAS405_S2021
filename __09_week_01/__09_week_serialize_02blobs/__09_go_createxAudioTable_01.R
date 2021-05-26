@@ -43,7 +43,7 @@ drv <- dbDriver("MySQL")
 
 
 
-xfl <- list.files( file.path( "..", "__09_audioFiles_01" ), pattern="*.wav$" )
+xfl <- list.files( file.path( "..", "__09_week_audioFiles_01" ), pattern="*.wav$" )
 
 
 tools::file_path_sans_ext(xfl)
@@ -55,12 +55,13 @@ data.frame(
 "file"=xfl
 )
 
+dfx_audio
+
 ######################### example of "serializing" png as evaluated vector
 
 ii <- 1
 
-
-xwav <- load.wave( file.path("..", "__09_audioFiles_01", xfl[ii]))
+xwav <- load.wave( file.path("..", "__09_week_audioFiles_01", xfl[ii]))
 
 xdim <- dim(xwav) ; xdim
 
@@ -92,6 +93,7 @@ zzz <- paste(xxx, collapse="")
 nchar(zzz)
 substring(zzz, 1, 100)
 
+format(object.size(zzz), "MB")
 
 
 uuu <- substring(zzz, seq(1, nchar(zzz), by=2), seq(2, nchar(zzz), by=2))
@@ -120,13 +122,14 @@ xxx <- serialize(xwav, con=NULL)
 
 class(xxx)
 
-object.size(xxx)
+format(object.size(xxx), "MB")
 
 yyy <- memCompress(from=xxx, type="gzip")
 
+## www <- memDecompress(from=yyy, type="gzip")
 ## yyy <- memCompress(from=xxx, asChar=TRUE)
 
-object.size(yyy)
+format(object.size(yyy), "MB")
 
 
 object.size(yyy) / object.size(xxx)
@@ -136,17 +139,20 @@ zzz <- paste(yyy, collapse="")
 nchar(zzz)
 substring(zzz, 1, 100)
 
+
+
 ########## undo
+
 
 uuu <- substring(zzz, seq(1, nchar(zzz), by=2), seq(2, nchar(zzz), by=2))
 
 vvv <- as.raw(as.hexmode( uuu ))
 
-object.size(vvv)
+format(object.size(vvv), "MB")
 
 www <- memDecompress(from=vvv, type="gzip")
 
-object.size(www)
+format(object.size(www), "MB")
 
 zwav <- unserialize(www)
 
@@ -174,7 +180,7 @@ for(ii in 1:nrow(dfx_audio_use)) {
     
     xthis_audFN <- dfx_audio_use[ ii, "file" ] ; xthis_audFN
 
-    xwav <- load.wave( file.path("..", "__09_audioFiles_01", xthis_audFN) )
+    xwav <- load.wave( file.path("..", "__09_week_audioFiles_01", xthis_audFN) )
 
     ################# convert to eval string (vector)
     xxx <- serialize(xwav, con=NULL)
@@ -287,27 +293,6 @@ dbListTables(con)
 
 dbGetInfo(con)
 
-if(FALSE) {
-
-for(ii in 1:nrow(dfx_audio_use)) {
-    
-    xthis_row <- dfx_audio_use[ ii, ]
-    
-    qstr <- paste0(
-    "INSERT INTO ", xtableNameC, " (name, file, audio_data) VALUES (",
-    "'", xthis_row[ , "name"], "', ",
-    "'", xthis_row[ , "file"], "', ",
-    "'", xthis_row[ , "audio_data"], "'",
-    ")"
-    ) ; #qstr
-    
-    dbGetQuery(con, qstr)
-    
-    cat(ii, "\n")
-    
-}
-
-}
 
 xxnow <- Sys.time()
 dbWriteTable(con, xtableNameC, dfx_audio_use, field.types = NULL, append=TRUE, ##### notice appeand is TRUE
@@ -325,26 +310,26 @@ qstr <- paste0("SHOW COLUMNS FROM ", xtableNameC)
 dbGetQuery(con, qstr)
 
 
+
+####################### beautiful
+
 qstr <-
 "
 SELECT
-    table_name AS 'Table',
+    table_name,
     round(((data_length + index_length) / 1024 / 1024), 3) 'Size in MB'
 FROM
     information_schema.TABLES
 "
 dbGetQuery(con, qstr)
 
-####################### beautiful
 
 
 
 
 
 
-
-
-################################################ ADD TO META DATA
+################################################ ADD TO dataDictionary
 
 
 xthis_taskName <- "MAS405audio_serial" #####
@@ -430,7 +415,7 @@ vvv <- as.raw(as.hexmode( uuu ))
 
 www <- memDecompress(from=vvv, type="xz")
 
-object.size(www)
+format(object.size(www), "MB")
 
 zwav <- unserialize(www)
 

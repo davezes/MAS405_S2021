@@ -17,20 +17,29 @@ list(
 "mx"=matrix(rnorm(4), 2, 2)
 )
 
-as.raw(xls)
+xls
 
-raw(xls)
+
+
+is.raw(xls)
+
+
 
 xxx <- serialize(object=xls, connection=NULL, ascii=FALSE, xdr = TRUE)
 xxx
 
 class(xxx)
 
+##### convert to string
 yyy <- as.character(xxx)
 zzz <- paste(yyy, collapse=":")
+zzz
+
+
+##### convert back
 uuu <- strsplit(zzz, ":")[[1]]
 vvv <- as.raw(as.hexmode( uuu ))
-
+vvv
 
 unserialize(vvv)
 
@@ -40,11 +49,13 @@ unserialize(vvv)
 
 yyy <- as.character(xxx)
 zzz <- paste(yyy, collapse="")
+zzz
+
+
 
 uuu <- substring(zzz, seq(1, nchar(zzz), by=2), seq(2, nchar(zzz), by=2))
-
 vvv <- as.raw(as.hexmode( uuu ))
-
+vvv
 
 unserialize(vvv)
 
