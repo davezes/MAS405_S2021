@@ -54,6 +54,7 @@ zzz
 
 
 uuu <- substring(zzz, seq(1, nchar(zzz), by=2), seq(2, nchar(zzz), by=2))
+
 vvv <- as.raw(as.hexmode( uuu ))
 vvv
 

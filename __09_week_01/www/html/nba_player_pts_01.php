@@ -29,13 +29,13 @@
         $data[] = $row ;
     }
     
-    var_dump( $data[ 0 ] ) ;
+    // var_dump( $data[ 0 ] ) ;
     
     //echo $data[ 0 ][ 'O3' ] ;
     
     //echo "<br/>" ;
     
-    echo count($data) ;
+    //echo count($data) ;
     
     $pts = [] ;
     for($i=0; $i<count($data); $i++) {

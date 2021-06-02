@@ -39,24 +39,24 @@
         $data[] = $row ;
     }
     
-    var_dump( $data[ 0 ] ) ;
+    //var_dump( $data[ 0 ] ) ;
     
     //echo $data[ 0 ][ 'O3' ] ;
     
     //echo "<br/>" ;
     
-    echo count($data) ;
+    //echo count($data) ;
     
     $o3_values = [] ;
     $latitude = [] ;
     $longitude = [] ;
     for($i=0; $i<count($data); $i++) {
         $o3_values[$i] = $data[ $i ][ 'O3' ] ;
-        $latitude[$i] = $data[ $i ][ 'latitude' ] ;
-        $longitude[$i] = $data[ $i ][ 'longitude' ] ;
+        //$latitude[$i] = $data[ $i ][ 'latitude' ] ;
+        //$longitude[$i] = $data[ $i ][ 'longitude' ] ;
     }
     
-    //var_dump( $o3_values ) ;
+    // var_dump( $o3_values ) ;
     
     
     //var_dump( $data[ ][ 'O3' ] ) ;
@@ -86,18 +86,18 @@
 <script>
 
 var js_o3 = <?php echo json_encode($o3_values); ?> ;
-var js_lat = <?php echo json_encode($latitude); ?> ;
-var js_lon = <?php echo json_encode($longitude); ?> ;
+//var js_lat = <?php echo json_encode($latitude); ?> ;
+//var js_lon = <?php echo json_encode($longitude); ?> ;
 
 // Display the array elements
-for(var i = 0; i < js_o3.length; i++){
-    document.write('<br/>');
-    document.write(js_lon[i]);
-    document.write(' ');
-    document.write(js_lat[i]);
-    document.write(' ');
-    document.write(js_o3[i]);
-}
+//for(var i = 0; i < js_o3.length; i++){
+//    document.write('<br/>');
+//    document.write(js_lon[i]);
+//    document.write(' ');
+//    document.write(js_lat[i]);
+//    document.write(' ');
+//    document.write(js_o3[i]);
+//}
 
 </script>
 
