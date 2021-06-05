@@ -37,7 +37,7 @@ pip search mysql-connector | grep --color mysql-connector-python
 
 
 Once done, double click 
-_10_params.py 
+_0X_params.py 
 and edit to include your DB credentials
 
 
@@ -45,7 +45,7 @@ and edit to include your DB credentials
 
 
 Now, open
-_10_basicDB_python3_01.ipynb
+_0X_basicDB_python3_01.ipynb
 
 (Note: if you're given a choice, select conda_python3 kernel)
 
@@ -54,11 +54,11 @@ Run
 
 Then
 
-_10_moreDB_NBA_python3_01.ipynb
+_0X_moreDB_NBA_python3_01.ipynb
 
 and lastly
 
-_10_moreDB_NBArefs_python3_01.ipynb
+_0X_moreDB_NBArefs_python3_01.ipynb
 
 
 Fun fun fun!

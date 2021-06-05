@@ -97,7 +97,24 @@ for(ii in 1:nrow(xdf_pics_use)) {
 
 colnames(xdf_pics_use)
 
-
+xdf_pics_use[ , c(1,2,4) ]
 
 #################
+
+nn <- 10000
+xxnow <- Sys.time()
+for(ii in 1:nn) {
+    xx <- duplicated(xdf_pics_use[ , "pic_digest_md5" ])
+}
+format( difftime(Sys.time(), xxnow), units="secs")
+
+
+
+nchar(xdf_pics_use[ 1, "pic_data" ])
+
+xxnow <- Sys.time()
+for(ii in 1:nn) {
+    xx <- duplicated(xdf_pics_use[ , "pic_data" ])
+}
+format( difftime(Sys.time(), xxnow), units="secs")
 

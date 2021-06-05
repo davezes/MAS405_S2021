@@ -1,15 +1,17 @@
 ---
 output:
   pdf_document: default
-  html_document: default
+bibliography: __template.bib
 ---
 
 
 ## R Markdown Skeleton
 
+<!-- remotes::install_github("ROpenSci/bibtex")  -->
 
 
 
+Citation: [@wu2019pay]
 
 
 ```{r TOP, echo=FALSE, message=FALSE, eval=TRUE, results='hide'}
@@ -33,12 +35,12 @@ drv <- dbDriver("MySQL")
 
 
 xdbuser <- Sys.getenv("MAS405_AWS_DZES_DB_RO_USER") ### 
-dzpw <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW") ### 
+xpw     <- Sys.getenv("MAS405_AWS_DZES_DB_RO_PW") ### 
 xdbname <- Sys.getenv("MAS405_AWS_DZES_DB_RO_DBNAME") ### 
 xdbhost <- Sys.getenv("MAS405_AWS_DZES_DB_RO_HOST") ###
 xdbport <- as.integer( Sys.getenv("MAS405_AWS_DZES_DB_RO_PORT") )
 
-con <- dbConnect(drv, user=xdbuser, password=dzpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
+con <- dbConnect(drv, user=xdbuser, password=xpw, dbname=xdbname, host=xdbhost, port=xdbport, unix.sock=xdbsock)
 
 
 xbool_tableExists <- dbExistsTable(con, "nba_players_1") ; xbool_tableExists
@@ -53,7 +55,7 @@ xbool_tableExists <- dbExistsTable(con, "nba_players_1") ; xbool_tableExists
 
 ##### get min and max date
 
-qstr <- "SELECT MIN(date), MAX(date) FROM nba_players_1"
+qstr <- "SELECT MIN(date), MAX(date) FROM nba_playersDate_1"
 
 xx <- dbGetQuery(con, qstr)
 xx
@@ -76,7 +78,7 @@ NBA data from `r xminDD` to `r xmaxDD`.
 
 xptotpnts <- 50
 
-qstr <- paste0("SELECT date, name, team, pts FROM nba_players_1 WHERE pts > ", xptotpnts)
+qstr <- paste0("SELECT date, name, team, pts FROM nba_playersDate_1 WHERE pts > ", xptotpnts)
 xx <- dbGetQuery(con, qstr)
 #xx
 
@@ -98,11 +100,7 @@ kable(xx)
 
 ```
 
-
-
-
-
-
+### References
 
 
 
